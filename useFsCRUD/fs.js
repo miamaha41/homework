@@ -25,7 +25,7 @@ function createStudent(id,name,age,gender,department) {
         }else console.log('ID must be different')
       })
 }
-createStudent(2,'Viet Bao',25,'Male','Math');
+// createStudent(2,'Viet Bao',25,'Male','Math');
 function readStudent(id){
   fs.readFile('student.json',(error, data)=>{
     const list = JSON.parse(data);
@@ -40,16 +40,16 @@ readStudent(1)
 function updateStudent(id,key,value){
   fs.readFile('student.json','utf8',(error, data)=>{
     const list = JSON.parse(data);
-    list.forEach((item) => {
-      if(item.ID == id){
-        item[key] = value;
-      }
+    let index = list.findIndex(item => item.ID == id)
+    if(index< 0){
+      console.log("Can not update student don't exist!");
+    }else{
+      list[index][key] = value;
+      fs.writeFile('student.json',JSON.stringify(list),(error)=> error)
+    }
     })
-    fs.writeFile('student.json',JSON.stringify(list),(error)=> error)
-  })
-}
+  }
 updateStudent(1,"new","good")
-
 function delStudent(id){
   fs.readFile('student.json',"utf8",(error, data)=>{
     const list = JSON.parse(data);
