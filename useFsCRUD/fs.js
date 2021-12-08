@@ -7,8 +7,8 @@ function createStudent(id,name,age,gender,department) {
         const list = JSON.parse(data);
         /**
          * 
-         * @param {*} id 
-         * @returns student or undefined
+         * @param {Number}id
+         * @returns {Object} student
          */
         function checkId(id) {
          return list.find(item => item.ID == id)
@@ -37,13 +37,21 @@ function readStudent(id){
   })
 }
 readStudent(1)
-function updateStudent(id){
-  fs.readFile('student.json',(error, data)=>{
-
+function updateStudent(id,key,value){
+  fs.readFile('student.json','utf8',(error, data)=>{
+    const list = JSON.parse(data);
+    list.forEach((item) => {
+      if(item.ID == id){
+        item[key] = value;
+      }
+    })
+    fs.writeFile('student.json',JSON.stringify(list),(error)=> error)
   })
 }
+updateStudent(1,"new","good")
+
 function delStudent(id){
-  fs.readFile('student.json',(error, data)=>{
+  fs.readFile('student.json',"utf8",(error, data)=>{
     const list = JSON.parse(data);
     list.forEach((item,index) => {
       if(item.ID == id){
