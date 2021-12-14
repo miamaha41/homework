@@ -1,7 +1,4 @@
 const fs = require('fs');
-fs.readFile('student.json',"utf8",(error, data)=>{
-  const list = JSON.parse(data);
-})
 function createStudent(id,name,age,gender,department) {
     fs.readFile('student.json',"utf8",(error, data)=>{
         const list = JSON.parse(data);
@@ -36,20 +33,32 @@ function readStudent(id){
     } )
   })
 }
-readStudent(1)
+// readStudent(1)
 function updateStudent(id,key,value){
-  fs.readFile('student.json','utf8',(error, data)=>{
-    const list = JSON.parse(data);
-    let index = list.findIndex(item => item.ID == id)
-    if(index< 0){
-      console.log("Can not update student don't exist!");
-    }else{
-      list[index][key] = value;
-      fs.writeFile('student.json',JSON.stringify(list),(error)=> error)
-    }
-    })
+  if(!id || !key || !value){
+    console.log("Must have id , key and value");
+    return;
+  } else if(id && key && value){
+    fs.readFile('student.json','utf8',(error, data)=>{
+      const list = JSON.parse(data);
+      let index = list.findIndex(item => item.ID == id)
+      if(index< 0){
+        console.log("Can not update student don't exist!");
+      }else{
+        // list.map((item, i)=> {
+        //   if(i == index){
+        //     item[key] = value;
+        //   }
+        // })
+        list[index][key] = value;
+        fs.writeFile('student.json',JSON.stringify(list),(error)=> error)
+      }
+      })
   }
-updateStudent(1,"new","good")
+  }
+updateStudent(1,"name","Bảo")
+// updateStudent(1,"name","Viết Nam")
+updateStudent(2,"t","1")
 function delStudent(id){
   fs.readFile('student.json',"utf8",(error, data)=>{
     const list = JSON.parse(data);
